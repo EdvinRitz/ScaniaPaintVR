@@ -1,2 +1,2 @@
 # ScaniaPaintVR
-VR paint game for painting a Scania Truck
+VR paint Unity game for painting a Scania Truck
