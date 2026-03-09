@@ -202,4 +202,10 @@ public class SprayPainter : MonoBehaviour
     {
         return Mathf.Lerp(reticleSizeNear, reticleSizeFar, Dist01(distance));
     }
+
+    public void SetSprayColor(Color newColor)
+    {
+        color = newColor; // used by painting (brushMat.SetColor)
+
+    }
 }
