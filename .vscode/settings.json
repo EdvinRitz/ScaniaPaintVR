@@ -67,5 +67,6 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "ScaniaPaintVR.slnx"
+    "dotnet.defaultSolution": "ScaniaPaintVR.slnx",
+    "chatgpt.openOnStartup": true
 }
