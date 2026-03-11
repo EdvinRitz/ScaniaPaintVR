@@ -6,6 +6,12 @@ public class ControllerTextureRaycast : MonoBehaviour
     [SerializeField] private float rayDistance = 10f;
     [SerializeField] private LayerMask raycastMask = ~0;
     [SerializeField] private XRNode controllerNode = XRNode.RightHand;
+    [SerializeField] private SprayPainter sprayPainter;
+
+    [SerializeField] private Transform hitMarker;
+    [SerializeField] private float hitMarkerOffset = 0.002f;
+
+
 
     private InputDevice device;
     private bool lastPressed = false;
@@ -23,9 +29,7 @@ public class ControllerTextureRaycast : MonoBehaviour
         if (device.TryGetFeatureValue(CommonUsages.triggerButton, out bool pressed))
         {
             if (pressed && !lastPressed)
-            {
                 ShootRay();
-            }
 
             lastPressed = pressed;
         }
@@ -35,30 +39,41 @@ public class ControllerTextureRaycast : MonoBehaviour
     {
         Ray ray = new Ray(transform.position, transform.forward);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, rayDistance, raycastMask))
+        if (!Physics.Raycast(ray, out RaycastHit hit, rayDistance, raycastMask))
+            return;
+
+        Renderer rend = hit.collider.GetComponent<Renderer>() ??
+                        hit.collider.GetComponentInParent<Renderer>();
+
+        if (rend == null)
+            return;
+
+        Texture2D tex = rend.material.mainTexture as Texture2D;
+        if (tex == null)
+            return;
+
+        if (!TryGetQuadUV(hit, out Vector2 uv))
+            return;
+
+        Color pickedColor = tex.GetPixelBilinear(uv.x, uv.y);
+
+        if (hitMarker != null)
         {
-            Renderer rend = hit.collider.GetComponent<Renderer>();
-            if (rend == null)
-                rend = hit.collider.GetComponentInParent<Renderer>();
-
-            if (rend == null)
-                return;
-
-            Texture2D tex = rend.material.mainTexture as Texture2D;
-            if (tex == null)
-                return;
-
-            if (!TryGetQuadUV(hit, out Vector2 uv))
-                return;
-
-            Color color = tex.GetPixelBilinear(uv.x, uv.y);
-
-            int r = Mathf.RoundToInt(color.r * 255f);
-            int g = Mathf.RoundToInt(color.g * 255f);
-            int b = Mathf.RoundToInt(color.b * 255f);
-
-            Debug.Log($"Picked RGB: {r}, {g}, {b}");
+            hitMarker.SetParent(hit.collider.transform, true);
+            hitMarker.position = hit.point + hit.normal * hitMarkerOffset;
+            hitMarker.rotation = Quaternion.LookRotation(hit.normal);
+            hitMarker.gameObject.SetActive(true);
         }
+
+
+        sprayPainter?.SetSprayColor(pickedColor);
+
+        Debug.Log(
+            $"Picked RGB: " +
+            $"{Mathf.RoundToInt(pickedColor.r * 255f)}, " +
+            $"{Mathf.RoundToInt(pickedColor.g * 255f)}, " +
+            $"{Mathf.RoundToInt(pickedColor.b * 255f)}"
+        );
     }
 
     private bool TryGetQuadUV(RaycastHit hit, out Vector2 uv)
