@@ -39,7 +39,28 @@ public class ControllerTextureRaycast : MonoBehaviour
     {
         Ray ray = new Ray(transform.position, transform.forward);
 
-        if (!Physics.Raycast(ray, out RaycastHit hit, rayDistance, raycastMask))
+        RaycastHit[] hits = Physics.RaycastAll(ray, rayDistance, ~0, QueryTriggerInteraction.Ignore);
+        if (hits.Length == 0)
+            return;
+
+        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+        RaycastHit hit = default;
+        bool foundValidHit = false;
+
+        foreach (RaycastHit currentHit in hits)
+        {
+            int hitLayerMask = 1 << currentHit.collider.gameObject.layer;
+
+            if ((raycastMask.value & hitLayerMask) == 0)
+                return;
+
+            hit = currentHit;
+            foundValidHit = true;
+            break;
+        }
+
+        if (!foundValidHit)
             return;
 
         Renderer rend = hit.collider.GetComponent<Renderer>() ??
