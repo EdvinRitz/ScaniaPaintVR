@@ -15556,6 +15556,7 @@ MonoBehaviour:
     m_Bits: 64
   paintRT: {fileID: 8400000, guid: a0408db9581f0554383d1eb6b7b3cfd2, type: 2}
   brushMat: {fileID: 2100000, guid: 8f6a5123696c7fb43bc37f241ea214f4, type: 2}
+  targetMaterial: {fileID: 0}
   maxDistance: 1.5
   color: {r: 0.07186719, g: 0.09870278, b: 0.8018868, a: 1}
   isSpraying: 0
@@ -17533,6 +17534,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: a686f5baaab7d884ca37234c728bbda7, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 469914ea5b3cf5e4196c82f069a4cbd6, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 04a68dfad9e726a4a8bcbe0814c32074, type: 2}
     - target: {fileID: 919132149155446097, guid: 469914ea5b3cf5e4196c82f069a4cbd6, type: 3}
       propertyPath: m_Name
       value: SprayBottle (1)
@@ -17791,6 +17796,7 @@ MonoBehaviour:
     m_Bits: 64
   paintRT: {fileID: 8400000, guid: a0408db9581f0554383d1eb6b7b3cfd2, type: 2}
   brushMat: {fileID: 2100000, guid: 8f6a5123696c7fb43bc37f241ea214f4, type: 2}
+  targetMaterial: {fileID: 2100000, guid: 04a68dfad9e726a4a8bcbe0814c32074, type: 2}
   maxDistance: 1.5
   color: {r: 0.07186719, g: 0.09870278, b: 0.8018868, a: 1}
   isSpraying: 0

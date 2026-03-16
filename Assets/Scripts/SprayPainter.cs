@@ -3,11 +3,19 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class SprayPainter : MonoBehaviour
 {
+    private static readonly int PaintColorId = Shader.PropertyToID("PaintColor");
+    private static readonly int UnderscorePaintColorId = Shader.PropertyToID("_PaintColor");
+    private static readonly int BaseColorId = Shader.PropertyToID("BaseColor");
+    private static readonly int UnderscoreBaseColorId = Shader.PropertyToID("_BaseColor");
+    private static readonly int ColorId = Shader.PropertyToID("Color");
+    private static readonly int UnderscoreColorId = Shader.PropertyToID("_Color");
+
     [Header("Refs")]
     public Transform nozzle;                 // Nozzle child (blue Z forward)
     public LayerMask paintableMask;          // Includes "Paintable"
     public RenderTexture paintRT;            // Same RT used by the truck material
     public Material brushMat;                // Your M_SprayBrush
+    public Material targetMaterial;          // Material that should mirror the selected spray color
     public float maxDistance = 3f;
 
     [Header("Brush")]
@@ -44,6 +52,8 @@ public class SprayPainter : MonoBehaviour
 
     void Start()
     {
+        SetSprayColor(color);
+
         // Warm-up: one tiny invisible stamp
         if (brushMat && paintRT)
         {
@@ -205,7 +215,27 @@ public class SprayPainter : MonoBehaviour
 
     public void SetSprayColor(Color newColor)
     {
-        color = newColor; // used by painting (brushMat.SetColor)
+        color = newColor;
 
+        if (targetMaterial == null)
+            return;
+
+        if (targetMaterial.HasProperty(PaintColorId))
+            targetMaterial.SetColor(PaintColorId, newColor);
+
+        if (targetMaterial.HasProperty(UnderscorePaintColorId))
+            targetMaterial.SetColor(UnderscorePaintColorId, newColor);
+
+        if (targetMaterial.HasProperty(BaseColorId))
+            targetMaterial.SetColor(BaseColorId, newColor);
+
+        if (targetMaterial.HasProperty(UnderscoreBaseColorId))
+            targetMaterial.SetColor(UnderscoreBaseColorId, newColor);
+
+        if (targetMaterial.HasProperty(ColorId))
+            targetMaterial.SetColor(ColorId, newColor);
+
+        if (targetMaterial.HasProperty(UnderscoreColorId))
+            targetMaterial.SetColor(UnderscoreColorId, newColor);
     }
 }
