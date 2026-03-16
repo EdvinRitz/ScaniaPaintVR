@@ -44,6 +44,11 @@ public class SprayPainter : MonoBehaviour
     [Header("Performance")]
     public int maxStampsPerFrame = 40;
 
+    [Header("Audio")]
+    public AudioSource sprayAudioSource;
+    public AudioClip sprayLoopClip;
+    [Range(0f, 1f)] public float sprayVolume = 1f;
+
     private bool hadPreviousHit = false;
     private Vector3 previousHitPoint;
     private Vector2 previousHitUV;
@@ -53,6 +58,7 @@ public class SprayPainter : MonoBehaviour
     void Start()
     {
         SetSprayColor(color);
+        ConfigureSprayAudio();
 
         // Warm-up: one tiny invisible stamp
         if (brushMat && paintRT)
@@ -75,11 +81,13 @@ public class SprayPainter : MonoBehaviour
 
         if (!isSpraying)
         {
+            UpdateSprayAudio(false);
             hadPreviousHit = false;
             return;
         }
 
-        SprayContinuous();
+        bool sprayedThisFrame = SprayContinuous();
+        UpdateSprayAudio(sprayedThisFrame);
     }
 
     public void OnActivated(ActivateEventArgs args)
@@ -91,6 +99,7 @@ public class SprayPainter : MonoBehaviour
     {
         isSpraying = false;
         hadPreviousHit = false;
+        UpdateSprayAudio(false);
     }
 
     void UpdateReticle(RaycastHit hit)
@@ -118,21 +127,21 @@ public class SprayPainter : MonoBehaviour
         }
     }
 
-    void SprayContinuous()
+    bool SprayContinuous()
     {
-        if (!nozzle) return;
+        if (!nozzle) return false;
 
         if (!Physics.Raycast(nozzle.position, nozzle.forward, out var hit, maxDistance, paintableMask))
         {
             hadPreviousHit = false;
-            return;
+            return false;
         }
 
         // Only spray if the surface has valid UVs
         if (hit.textureCoord.x <= 0.0001f && hit.textureCoord.y <= 0.0001f)
         {
             hadPreviousHit = false;
-            return;
+            return false;
         }
 
         Vector2 currentUV = hit.textureCoord;
@@ -142,8 +151,10 @@ public class SprayPainter : MonoBehaviour
             StampAtUV(currentUV, hit.distance);
             previousHitPoint = hit.point;
             previousHitUV = currentUV;
+            previousCollider = hit.collider;
+            previousNormal = hit.normal;
             hadPreviousHit = true;
-            return;
+            return true;
         }
 
         bool surfaceChanged =
@@ -161,7 +172,7 @@ public class SprayPainter : MonoBehaviour
             previousCollider = hit.collider;
             previousNormal = hit.normal;
             hadPreviousHit = true;
-            return;
+            return true;
         }
 
         float worldDistance = Vector3.Distance(previousHitPoint, hit.point);
@@ -179,6 +190,7 @@ public class SprayPainter : MonoBehaviour
         previousHitUV = currentUV;
         previousCollider = hit.collider;
         previousNormal = hit.normal;
+        return true;
     }
 
     void StampAtUV(Vector2 uv, float distance)
@@ -237,5 +249,40 @@ public class SprayPainter : MonoBehaviour
 
         if (targetMaterial.HasProperty(UnderscoreColorId))
             targetMaterial.SetColor(UnderscoreColorId, newColor);
+    }
+
+    private void ConfigureSprayAudio()
+    {
+        if (sprayAudioSource == null)
+            sprayAudioSource = GetComponent<AudioSource>();
+
+        if (sprayAudioSource == null)
+            return;
+
+        sprayAudioSource.loop = true;
+        sprayAudioSource.playOnAwake = false;
+        sprayAudioSource.clip = sprayLoopClip;
+        sprayAudioSource.volume = sprayVolume;
+    }
+
+    private void UpdateSprayAudio(bool shouldPlay)
+    {
+        if (sprayAudioSource == null)
+            return;
+
+        if (sprayAudioSource.clip != sprayLoopClip)
+            sprayAudioSource.clip = sprayLoopClip;
+
+        sprayAudioSource.volume = sprayVolume;
+
+        if (shouldPlay && sprayLoopClip != null)
+        {
+            if (!sprayAudioSource.isPlaying)
+                sprayAudioSource.Play();
+        }
+        else if (sprayAudioSource.isPlaying)
+        {
+            sprayAudioSource.Stop();
+        }
     }
 }
