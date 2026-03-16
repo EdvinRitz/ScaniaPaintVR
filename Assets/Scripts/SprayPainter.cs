@@ -48,6 +48,9 @@ public class SprayPainter : MonoBehaviour
     public AudioSource sprayAudioSource;
     public AudioClip sprayLoopClip;
     [Range(0f, 1f)] public float sprayVolume = 1f;
+    [Range(0.1f, 3f)] public float sprayPitch = 1f;
+    [Range(0f, 0.5f)] public float sprayPitchRandomness = 0.05f;
+    public bool randomizeSprayStartTime = true;
 
     private bool hadPreviousHit = false;
     private Vector3 previousHitPoint;
@@ -263,6 +266,7 @@ public class SprayPainter : MonoBehaviour
         sprayAudioSource.playOnAwake = false;
         sprayAudioSource.clip = sprayLoopClip;
         sprayAudioSource.volume = sprayVolume;
+        sprayAudioSource.pitch = sprayPitch;
     }
 
     private void UpdateSprayAudio(bool shouldPlay)
@@ -278,11 +282,22 @@ public class SprayPainter : MonoBehaviour
         if (shouldPlay && sprayLoopClip != null)
         {
             if (!sprayAudioSource.isPlaying)
+            {
+                float pitchOffset = Random.Range(-sprayPitchRandomness, sprayPitchRandomness);
+                sprayAudioSource.pitch = Mathf.Max(0.1f, sprayPitch + pitchOffset);
+
+                if (randomizeSprayStartTime && sprayLoopClip.length > 0f)
+                    sprayAudioSource.time = Random.Range(0f, sprayLoopClip.length);
+                else
+                    sprayAudioSource.time = 0f;
+
                 sprayAudioSource.Play();
+            }
         }
         else if (sprayAudioSource.isPlaying)
         {
             sprayAudioSource.Stop();
+            sprayAudioSource.pitch = sprayPitch;
         }
     }
 }

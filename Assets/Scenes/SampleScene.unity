@@ -3835,7 +3835,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -16847,6 +16847,9 @@ MonoBehaviour:
   sprayAudioSource: {fileID: 0}
   sprayLoopClip: {fileID: 0}
   sprayVolume: 1
+  sprayPitch: 1
+  sprayPitchRandomness: 0.05
+  randomizeSprayStartTime: 1
 --- !u!1 &1533437182
 GameObject:
   m_ObjectHideFlags: 0
@@ -19528,8 +19531,11 @@ MonoBehaviour:
   reticleSizeFar: 0.4
   maxStampsPerFrame: 40
   sprayAudioSource: {fileID: 398440124}
-  sprayLoopClip: {fileID: 0}
+  sprayLoopClip: {fileID: 8300000, guid: 6e997ec598e5ea744abba7bd9ad357c3, type: 3}
   sprayVolume: 1
+  sprayPitch: 1
+  sprayPitchRandomness: 0.04
+  randomizeSprayStartTime: 1
 --- !u!1 &1783572213
 GameObject:
   m_ObjectHideFlags: 0
