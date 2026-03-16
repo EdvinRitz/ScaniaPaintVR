@@ -3283,13 +3283,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 370051574}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0002, y: 0, z: 0.00071}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: 0.000048, y: 0, z: 0.00085}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1780346424}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: -90}
 --- !u!1 &373735892
 GameObject:
   m_ObjectHideFlags: 0
@@ -5041,6 +5041,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5798157943916587367, guid: 88d0d3afa133b7843891a1dc2b36189c, type: 3}
+--- !u!1 &510078365
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 510078366}
+  m_Layer: 0
+  m_Name: Nozzle1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &510078366
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510078365}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0.000123, y: -0.000004, z: 0.000918}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1780346424}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &514579090
 GameObject:
   m_ObjectHideFlags: 0
@@ -7020,7 +7051,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   controllerNode: 5
-  sprayPainter: {fileID: 1520575125}
+  sprayPainter: {fileID: 1780346428}
   hitMarker: {fileID: 2059220868}
   hitMarkerOffset: 0.002
 --- !u!1001 &692397217
@@ -14076,7 +14107,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   controllerNode: 4
-  sprayPainter: {fileID: 1520575125}
+  sprayPainter: {fileID: 1780346428}
   hitMarker: {fileID: 2059220868}
   hitMarkerOffset: 0.002
 --- !u!1 &1376076716
@@ -15229,7 +15260,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1520575119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17498,6 +17529,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 469914ea5b3cf5e4196c82f069a4cbd6, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a686f5baaab7d884ca37234c728bbda7, type: 2}
     - target: {fileID: 919132149155446097, guid: 469914ea5b3cf5e4196c82f069a4cbd6, type: 3}
       propertyPath: m_Name
       value: SprayBottle (1)
@@ -17508,6 +17543,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 469914ea5b3cf5e4196c82f069a4cbd6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 370051575}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 469914ea5b3cf5e4196c82f069a4cbd6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 510078366}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 469914ea5b3cf5e4196c82f069a4cbd6, type: 3}
       insertIndex: -1
@@ -17515,6 +17553,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 469914ea5b3cf5e4196c82f069a4cbd6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1780346422}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 469914ea5b3cf5e4196c82f069a4cbd6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1780346427}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 469914ea5b3cf5e4196c82f069a4cbd6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1780346428}
   m_SourcePrefab: {fileID: 100100000, guid: 469914ea5b3cf5e4196c82f069a4cbd6, type: 3}
 --- !u!1 &1780346421 stripped
 GameObject:
@@ -17586,10 +17630,34 @@ MonoBehaviour:
       m_Calls: []
   m_Activated:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1780346428}
+        m_TargetAssemblyTypeName: SprayPainter, Assembly-CSharp
+        m_MethodName: OnActivated
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_Deactivated:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1780346428}
+        m_TargetAssemblyTypeName: SprayPainter, Assembly-CSharp
+        m_MethodName: OnDeactivated
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_StartingHoverFilters: []
   m_StartingSelectFilters: []
   m_StartingInteractionStrengthFilters: []
@@ -17645,7 +17713,7 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
-  m_FarAttachMode: 0
+  m_FarAttachMode: 1
   m_LimitLinearVelocity: 0
   m_LimitAngularVelocity: 0
   m_MaxLinearVelocityDelta: 10
@@ -17682,6 +17750,62 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 469914ea5b3cf5e4196c82f069a4cbd6, type: 3}
   m_PrefabInstance: {fileID: 1780346420}
   m_PrefabAsset: {fileID: 0}
+--- !u!136 &1780346427
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780346421}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.0008999998
+  m_Height: 0.0006499998
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0.00006779564}
+--- !u!114 &1780346428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780346421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8a02ae73be8ce4f86e5b0f36b3eedf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SprayPainter
+  nozzle: {fileID: 510078366}
+  paintableMask:
+    serializedVersion: 2
+    m_Bits: 64
+  paintRT: {fileID: 8400000, guid: a0408db9581f0554383d1eb6b7b3cfd2, type: 2}
+  brushMat: {fileID: 2100000, guid: 8f6a5123696c7fb43bc37f241ea214f4, type: 2}
+  maxDistance: 1.5
+  color: {r: 0.07186719, g: 0.09870278, b: 0.8018868, a: 1}
+  isSpraying: 0
+  sizeNearDist: 0.04
+  sizeFarDist: 1.5
+  brushUVNear: 0.001
+  brushUVFar: 0.02
+  stampSpacing: 0.005
+  maxUvJump: 0.25
+  maxNormalAngle: 35
+  reticle: {fileID: 1728577772}
+  reticleOffset: 0.002
+  reticleSizeNear: 0.02
+  reticleSizeFar: 0.4
+  maxStampsPerFrame: 40
 --- !u!1 &1783572213
 GameObject:
   m_ObjectHideFlags: 0
