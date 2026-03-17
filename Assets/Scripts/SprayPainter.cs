@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class SprayPainter : MonoBehaviour
@@ -16,6 +17,7 @@ public class SprayPainter : MonoBehaviour
     public RenderTexture paintRT;            // Same RT used by the truck material
     public Material brushMat;                // Your M_SprayBrush
     public Material targetMaterial;          // Material that should mirror the selected spray color
+    public XRNode controllerNode = XRNode.RightHand;
     public float maxDistance = 3f;
 
     [Header("Brush")]
@@ -57,9 +59,11 @@ public class SprayPainter : MonoBehaviour
     private Vector2 previousHitUV;
     private Collider previousCollider;
     private Vector3 previousNormal;
+    private InputDevice device;
 
     void Start()
     {
+        device = InputDevices.GetDeviceAtXRNode(controllerNode);
         SetSprayColor(color);
         ConfigureSprayAudio();
 
@@ -80,6 +84,7 @@ public class SprayPainter : MonoBehaviour
     }
     void Update()
     {
+        UpdateSprayInput();
         UpdateReticleRaycast();
 
         if (!isSpraying)
@@ -91,6 +96,26 @@ public class SprayPainter : MonoBehaviour
 
         bool sprayedThisFrame = SprayContinuous();
         UpdateSprayAudio(sprayedThisFrame);
+    }
+
+    private void UpdateSprayInput()
+    {
+        if (!device.isValid)
+            device = InputDevices.GetDeviceAtXRNode(controllerNode);
+
+        if (!device.TryGetFeatureValue(CommonUsages.triggerButton, out bool pressed))
+            return;
+
+        if (pressed == isSpraying)
+            return;
+
+        isSpraying = pressed;
+
+        if (!isSpraying)
+        {
+            hadPreviousHit = false;
+            UpdateSprayAudio(false);
+        }
     }
 
     public void OnActivated(ActivateEventArgs args)
