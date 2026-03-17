@@ -17,7 +17,8 @@ public class SprayPainter : MonoBehaviour
     public RenderTexture paintRT;            // Same RT used by the truck material
     public Material brushMat;                // Your M_SprayBrush
     public Material targetMaterial;          // Material that should mirror the selected spray color
-    public XRNode controllerNode = XRNode.RightHand;
+    public bool useLeftHand = true;
+    public bool useRightHand = true;
     public float maxDistance = 3f;
 
     [Header("Brush")]
@@ -59,11 +60,37 @@ public class SprayPainter : MonoBehaviour
     private Vector2 previousHitUV;
     private Collider previousCollider;
     private Vector3 previousNormal;
-    private InputDevice device;
+    private InputDevice leftHandDevice;
+    private InputDevice rightHandDevice;
+    private XRNode? heldControllerNode;
+    private UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable grabInteractable;
+
+    void Awake()
+    {
+        grabInteractable = GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
+    }
+
+    void OnEnable()
+    {
+        if (grabInteractable == null)
+            return;
+
+        grabInteractable.selectEntered.AddListener(OnSelectEntered);
+        grabInteractable.selectExited.AddListener(OnSelectExited);
+    }
+
+    void OnDisable()
+    {
+        if (grabInteractable == null)
+            return;
+
+        grabInteractable.selectEntered.RemoveListener(OnSelectEntered);
+        grabInteractable.selectExited.RemoveListener(OnSelectExited);
+    }
 
     void Start()
     {
-        device = InputDevices.GetDeviceAtXRNode(controllerNode);
+        RefreshInputDevices();
         SetSprayColor(color);
         ConfigureSprayAudio();
 
@@ -100,11 +127,14 @@ public class SprayPainter : MonoBehaviour
 
     private void UpdateSprayInput()
     {
-        if (!device.isValid)
-            device = InputDevices.GetDeviceAtXRNode(controllerNode);
+        RefreshInputDevices();
 
-        if (!device.TryGetFeatureValue(CommonUsages.triggerButton, out bool pressed))
-            return;
+        bool pressed = heldControllerNode switch
+        {
+            XRNode.LeftHand => IsTriggerPressed(leftHandDevice, useLeftHand),
+            XRNode.RightHand => IsTriggerPressed(rightHandDevice, useRightHand),
+            _ => false
+        };
 
         if (pressed == isSpraying)
             return;
@@ -118,16 +148,93 @@ public class SprayPainter : MonoBehaviour
         }
     }
 
+    private void RefreshInputDevices()
+    {
+        if (useLeftHand && !leftHandDevice.isValid)
+            leftHandDevice = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+
+        if (useRightHand && !rightHandDevice.isValid)
+            rightHandDevice = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+    }
+
+    private static bool IsTriggerPressed(InputDevice device, bool enabled)
+    {
+        if (!enabled || !device.isValid)
+            return false;
+
+        return device.TryGetFeatureValue(CommonUsages.triggerButton, out bool pressed) && pressed;
+    }
+
+    public void OnSelectEntered(SelectEnterEventArgs args)
+    {
+        heldControllerNode = TryGetControllerNode(args.interactorObject);
+    }
+
+    public void OnSelectExited(SelectExitEventArgs args)
+    {
+        XRNode? releasingNode = TryGetControllerNode(args.interactorObject);
+
+        if (heldControllerNode.HasValue && heldControllerNode == releasingNode)
+            heldControllerNode = null;
+
+        isSpraying = false;
+        hadPreviousHit = false;
+        UpdateSprayAudio(false);
+    }
+
     public void OnActivated(ActivateEventArgs args)
     {
-        isSpraying = true;
+        XRNode? activatingNode = TryGetControllerNode(args.interactorObject);
+
+        if (heldControllerNode.HasValue && heldControllerNode == activatingNode)
+            isSpraying = true;
     }
 
     public void OnDeactivated(DeactivateEventArgs args)
     {
+        XRNode? deactivatingNode = TryGetControllerNode(args.interactorObject);
+
+        if (!heldControllerNode.HasValue || heldControllerNode != deactivatingNode)
+            return;
+
         isSpraying = false;
         hadPreviousHit = false;
         UpdateSprayAudio(false);
+    }
+
+    private static XRNode? TryGetControllerNode(UnityEngine.XR.Interaction.Toolkit.Interactors.IXRInteractor interactor)
+    {
+        if (interactor == null)
+            return null;
+
+        Transform current = interactor.transform;
+
+        while (current != null)
+        {
+            XRNode? node = TryParseControllerNode(current.name);
+            if (node.HasValue)
+                return node;
+
+            current = current.parent;
+        }
+
+        return null;
+    }
+
+    private static XRNode? TryParseControllerNode(string objectName)
+    {
+        if (string.IsNullOrEmpty(objectName))
+            return null;
+
+        string normalizedName = objectName.ToLowerInvariant();
+
+        if (normalizedName.Contains("left"))
+            return XRNode.LeftHand;
+
+        if (normalizedName.Contains("right"))
+            return XRNode.RightHand;
+
+        return null;
     }
 
     void UpdateReticle(RaycastHit hit)
