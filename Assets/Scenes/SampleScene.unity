@@ -288,27 +288,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -3453611866616751064, guid: 88d0d3afa133b7843891a1dc2b36189c, type: 3}
   m_PrefabInstance: {fileID: 341808799}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &25399521
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 25399517}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 0.0019679144, y: 0.0008921887, z: 0.001156592}
-  m_Center: {x: 8.6736174e-19, y: 5.8207675e-11, z: 1.4551915e-10}
 --- !u!64 &25399522
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2900,6 +2879,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -446876973364211910, guid: 88d0d3afa133b7843891a1dc2b36189c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -195522917157678151, guid: 88d0d3afa133b7843891a1dc2b36189c, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -3031,16 +3014,10 @@ PrefabInstance:
       addedObject: {fileID: 926105791}
     - targetCorrespondingSourceObject: {fileID: -3453611866616751064, guid: 88d0d3afa133b7843891a1dc2b36189c, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 25399521}
-    - targetCorrespondingSourceObject: {fileID: -3453611866616751064, guid: 88d0d3afa133b7843891a1dc2b36189c, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 25399522}
     - targetCorrespondingSourceObject: {fileID: 407725392115130016, guid: 88d0d3afa133b7843891a1dc2b36189c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1125377411}
-    - targetCorrespondingSourceObject: {fileID: -446876973364211910, guid: 88d0d3afa133b7843891a1dc2b36189c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 976094191}
     - targetCorrespondingSourceObject: {fileID: -446876973364211910, guid: 88d0d3afa133b7843891a1dc2b36189c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 976094192}
@@ -3233,7 +3210,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
+  m_RayTracingMode: 0
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
@@ -11330,27 +11307,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -446876973364211910, guid: 88d0d3afa133b7843891a1dc2b36189c, type: 3}
   m_PrefabInstance: {fileID: 341808799}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &976094191
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 976094187}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 0.00005076379, y: 0.0020843598, z: 0.0005763653}
-  m_Center: {x: 3.0013325e-11, y: 0, z: -1.4551919e-11}
 --- !u!64 &976094192
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -15285,6 +15241,7 @@ GameObject:
   - component: {fileID: 1359090621}
   - component: {fileID: 1359090620}
   - component: {fileID: 1359090619}
+  - component: {fileID: 1359090622}
   m_Layer: 0
   m_Name: Wall_Back (3)
   m_TagString: Untagged
@@ -15386,6 +15343,26 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1359090617}
   m_Mesh: {fileID: -8488273068356072977, guid: 00c9c177e828a57439e290aef2a23b3f, type: 3}
+--- !u!114 &1359090622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359090617}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ccb1731954f7fb4daf367cd614617a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SprayDebugOverlay
+  sprayPainter: {fileID: 1780346428}
+  grabInteractable: {fileID: 1780346422}
+  nozzle: {fileID: 510078366}
+  paintableMask:
+    serializedVersion: 2
+    m_Bits: 64
+  paintRT: {fileID: 8400000, guid: a0408db9581f0554383d1eb6b7b3cfd2, type: 2}
+  targetRenderer: {fileID: 0}
 --- !u!1 &1366150440
 GameObject:
   m_ObjectHideFlags: 0
@@ -15931,7 +15908,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: fff331959bb67714f8a8fdaa43fd5f20, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19845,10 +19822,34 @@ MonoBehaviour:
       m_Calls: []
   m_Activated:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1780346428}
+        m_TargetAssemblyTypeName: SprayPainter, Assembly-CSharp
+        m_MethodName: OnActivated
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_Deactivated:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1780346428}
+        m_TargetAssemblyTypeName: SprayPainter, Assembly-CSharp
+        m_MethodName: OnDeactivated
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_StartingHoverFilters: []
   m_StartingSelectFilters: []
   m_StartingInteractionStrengthFilters: []
