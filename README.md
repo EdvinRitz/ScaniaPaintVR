@@ -1,6 +1,8 @@
 # ScaniaPaintVR
 Unity VR paint game for painting a Scania Truck
 
+Uses Unity Editor version 6000.3.10f1
+
 Made during ScaniaHack 2026
 
 ## Gameplay Trailer
